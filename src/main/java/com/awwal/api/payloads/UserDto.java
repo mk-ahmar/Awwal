@@ -8,17 +8,26 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDto {
-	private String name;
-	private String email;
-	private String password;
-	private String about;
-	
-	public String getName() {
-		return name;
+	private int aId;
+	public int getaId() {
+		return aId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setaId(int aId) {
+		this.aId = aId;
+	}
+
+	private String user_name;
+	private String email;
+	private String user_password;
+	private String about;
+
+	public String getName() {
+		return user_name;
+	}
+
+	public void setName(String user_name) {
+		this.user_name = user_name;
 	}
 
 	public String getEmail() {
@@ -30,11 +39,11 @@ public class UserDto {
 	}
 
 	public String getPassword() {
-		return password;
+		return user_password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String user_password) {
+		this.user_password = user_password;
 	}
 
 	public String getAbout() {
@@ -54,5 +63,5 @@ public class UserDto {
 	}
 
 	private int id;
-	
+
 }

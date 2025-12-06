@@ -24,11 +24,11 @@ public class User {
 	}
 
 	public String getName() {
-		return name;
+		return user_name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String user_name) {
+		this.user_name = user_name;
 	}
 
 	public String getEmail() {
@@ -40,11 +40,11 @@ public class User {
 	}
 
 	public String getPassword() {
-		return password;
+		return user_password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String user_password) {
+		this.user_password = user_password;
 	}
 
 	public String getAbout() {
@@ -57,16 +57,19 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int a_id;
+	
+	@Column(nullable =false, length = 100)
 	private int id;
 	
-	@Column(nullable = false, length = 100)
-	private String name;
+	@Column(nullable = false, length = 255)
+	private String user_name;
 	
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 255)
 	private String email;
 	
-	@Column(nullable = false, length = 100)
-	private String password;
+	@Column(nullable = false, length = 255)
+	private String user_password;
 	
 	private String about;
 }
