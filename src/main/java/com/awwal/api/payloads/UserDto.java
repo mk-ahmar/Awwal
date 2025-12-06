@@ -8,15 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDto {
-	private int aId;
-	public int getaId() {
-		return aId;
-	}
-
-	public void setaId(int aId) {
-		this.aId = aId;
-	}
-
 	private String user_name;
 	private String email;
 	private String user_password;

@@ -8,15 +8,15 @@ public class PersonDto {
 	private int id;
 	private String person_name;	
 	private String person_email;
-    private String occupation;
-    private int experience;
-    private double ctcInLpa;
-    private String crtDt;
-    private String lstUpdtDt;
+	private String occupation;
+	private int experience;
+	private double ctcInLpa;
+	private String crtDt;
+	private String lstUpdtDt;
 
-    
-    
-    public String getCrtDt() {
+
+
+	public String getCrtDt() {
 		return crtDt;
 	}
 	public void setCrtDt(String crtDt) {
@@ -76,8 +76,8 @@ public class PersonDto {
 				+ person_email + ", occupation=" + occupation + ", experience=" + experience + ", ctcInLpa=" + ctcInLpa
 				+ ", crtDt=" + crtDt + ", lstUpdtDt=" + lstUpdtDt + "]";
 	}
-	
 
-	
-    
+
+
+
 }

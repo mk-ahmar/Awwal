@@ -57,10 +57,10 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int a_id;
-	
-	@Column(nullable =false, length = 100)
+	@Column(nullable = false, length = 100)
 	private int id;
+	
+
 	
 	@Column(nullable = false, length = 255)
 	private String user_name;

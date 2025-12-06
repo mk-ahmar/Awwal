@@ -9,6 +9,6 @@ public interface UserService {
 	UserDto updateUser(UserDto user, int userId);
 	UserDto getUserById(int userId);
 	List<UserDto> getAllUsers();
-	
+
 	void deleteUser(int userId);
 }
