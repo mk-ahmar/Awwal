@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login — Awwal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+      :root{--bg:#f7f8fb;--card:#ffffff;--accent:#4f46e5;--muted:#6b7280}
+      *{box-sizing:border-box}
+      body{font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial; margin:0;background:linear-gradient(180deg,#f8fafc 0%,var(--bg) 100%);display:flex;align-items:center;justify-content:center;height:100vh}
+      .card{width:380px;background:var(--card);border-radius:12px;box-shadow:0 8px 30px rgba(17,24,39,0.08);padding:28px}
+      h1{margin:0 0 10px;font-size:20px}
+      p.lead{margin:0 0 20px;color:var(--muted);font-size:14px}
+      label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+      input{width:100%;padding:12px;border-radius:8px;border:1px solid #e6e9ef;background:#fff;margin-bottom:12px;font-size:14px}
+      button{width:100%;padding:12px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
+      .hint{margin-top:12px;text-align:center;color:var(--muted);font-size:13px}
+      .success{color:green}
+      .error{color:#b91c1c}
+    </style>
+  </head>
+  <body>
+    <div class="card" id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+      const {useState} = React;
+
+      function LoginCard(){
+        const [email,setEmail] = useState('');
+        const [password,setPassword] = useState('');
+        const [status,setStatus] = useState(null);
+
+        async function submit(e){
+          e.preventDefault();
+          setStatus('loading');
+          const res = await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+          if(res.ok){
+            const user = await res.json();
+            setStatus('success');
+            // store user id in localStorage for demo purposes
+            localStorage.setItem('awwal_user', JSON.stringify(user));
+            setTimeout(()=>{window.location.href='/'},800);
+          } else {
+            setStatus('error');
+          }
+        }
+
+        return (
+          <div>
+            <h1>Welcome back</h1>
+            <p className="lead">Sign in to your account</p>
+            <form onSubmit={submit}>
+              <label>Email</label>
+              <input type="email" value={email} onChange={e=>setEmail(e.target.value)} required />
+              <label>Password</label>
+              <input type="password" value={password} onChange={e=>setPassword(e.target.value)} required />
+              <button type="submit">Sign in</button>
+            </form>
+            <div className="hint">
+              {status === 'loading' && 'Checking...'}
+              {status === 'success' && <span className="success">Signed in — redirecting…</span>}
+              {status === 'error' && <span className="error">Invalid credentials</span>}
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<LoginCard />);
+    </script>
+  </body>
+</html>

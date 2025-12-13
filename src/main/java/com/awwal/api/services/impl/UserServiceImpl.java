@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.awwal.api.exceptions.*;
 import com.awwal.api.entities.User;
@@ -21,7 +21,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepo userRepo;
 
-	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
