@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.awwal.api.exceptions.*;
 import com.awwal.api.entities.User;
@@ -19,6 +20,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepo userRepo;
+
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -36,7 +39,9 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(userDto.getEmail());
 		user.setId(userDto.getId());
 		user.setName(userDto.getName());
-		user.setPassword(userDto.getPassword());
+		if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+			user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+		}
 
 		User updatedUser = this.userRepo.save(user);
 		UserDto userDto1 = this.userToDto(updatedUser);
@@ -75,7 +80,9 @@ public class UserServiceImpl implements UserService {
 		user.setId(userDto.getId());
 		user.setName(userDto.getName());
 		user.setEmail(userDto.getEmail());
-		user.setPassword(userDto.getPassword());
+		if (userDto.getPassword() != null && !userDto.getPassword().isEmpty()) {
+			user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+		}
 		user.setAbout(userDto.getAbout());
 		return user;
 
@@ -87,7 +94,7 @@ public class UserServiceImpl implements UserService {
 		userDto.setName(user.getName());
 		userDto.setEmail(user.getEmail());
 		userDto.setAbout(user.getAbout());
-		userDto.setPassword(user.getPassword());
+		// Do not expose password in DTO returned to clients
 		return userDto;
 	}
 
