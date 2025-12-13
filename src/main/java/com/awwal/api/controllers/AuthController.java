@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.awwal.api.security.JwtUtil;
+import com.awwal.api.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +30,12 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         Optional<User> opt = this.userRepo.findByEmail(loginRequest.getEmail());
@@ -44,6 +54,15 @@ public class AuthController {
         dto.setEmail(user.getEmail());
         dto.setAbout(user.getAbout());
 
-        return ResponseEntity.ok(dto);
+        String token = jwtUtil.generateToken(user);
+
+        return ResponseEntity.ok(java.util.Map.of("token", token, "user", dto));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody UserDto userDto) {
+        // createUser will hash the password
+        UserDto created = userService.createUser(userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 }

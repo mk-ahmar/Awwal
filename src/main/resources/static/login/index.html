@@ -42,10 +42,11 @@
           setStatus('loading');
           const res = await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
           if(res.ok){
-            const user = await res.json();
+            const payload = await res.json();
             setStatus('success');
-            // store user id in localStorage for demo purposes
-            localStorage.setItem('awwal_user', JSON.stringify(user));
+            // response contains { token, user }
+            localStorage.setItem('awwal_token', payload.token);
+            localStorage.setItem('awwal_user', JSON.stringify(payload.user));
             setTimeout(()=>{window.location.href='/'},800);
           } else {
             setStatus('error');
